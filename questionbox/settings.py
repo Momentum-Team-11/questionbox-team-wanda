@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import environ
+import environ 
 
 env = environ.Env(
     # set casting, default value
@@ -48,9 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'questionbox',
     'questionboxcore',
     'api',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -140,4 +142,3 @@ REST_FRAMEWORK = {
     ]
 }
 
-AUTH_USER_MODEL = "questionbox.User"
