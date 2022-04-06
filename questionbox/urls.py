@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from api import views as api_views
-from api.serializers import QuestionSerializer
+from api.serializers import QuestionSerializer, QuestionAnswerSerializer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,6 +25,7 @@ urlpatterns = [
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.authtoken')),
     path('api/questions/', api_views.QuestionListView.as_view(), name="api-question"),
+    path('api/questions/<int:pk>/', api_views.QuestionDetailsView.as_view(), name="api-questiondetails"),
     path('api/profile/myquestions', api_views.UserQuestionsListView.as_view(), name="api-userquestions"),
 
 ]
