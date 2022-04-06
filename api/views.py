@@ -2,8 +2,10 @@ from django.shortcuts import render
 from api.models import Question, Answer, User
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, RetriveUpdateDestroyAPIView
 from .serializers import AnswerSerializer, QuestionSerializer, QuestionAnswerSerializer
+from api import serializers
+
 
 
 
@@ -20,7 +22,7 @@ class AnswerListView(ListCreateAPIView):
     serializer_class = AnswerSerializer
 
 
-class UserQuestionsListView(ListAPIView):
+class UserQuestionsListView(RetriveUpdateDestroyAPIView):
     queryset = Question.objects.filter(user=User)
     serializer_class = QuestionSerializer
 
