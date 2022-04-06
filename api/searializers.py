@@ -9,3 +9,13 @@ class QuestionSerializer(serializers.ModelSerializer):
             "description",
             "user",
         )
+
+class QuestionAnswerSerializer(serializers.ModelSerializer):
+    answers = AnswerSerializer(many=True, required=False)
+    class Meta:
+        model = Question
+        fields = (
+            "title",
+            "description",
+            "answers",
+        )
