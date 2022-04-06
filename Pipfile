@@ -12,6 +12,7 @@ djoser = "*"
 django-environ = "*"
 django-on-heroku = "*"
 django-cors-headers = "*"
+django-extensions = "*"
 
 [dev-packages]
 

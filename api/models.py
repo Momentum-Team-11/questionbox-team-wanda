@@ -9,7 +9,7 @@ class User(AbstractUser):
         return self.username
 
 class Question(models.Model):
-    user=models.ForeignKey(User, on_delete=models.CASCADE, default=True)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, default=True, related_name="questions")
     title=models.CharField(max_length=100, null=True, blank=True)
     description=models.CharField(max_length=10000, null=True, blank=True)
     created_at=models.DateField(auto_now_add=True)
