@@ -7,9 +7,6 @@ from .serializers import AnswerSerializer, QuestionSerializer, QuestionAnswerSer
 from api import serializers
 
 
-
-
-
 class QuestionListView(ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer

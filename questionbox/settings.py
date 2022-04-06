@@ -14,6 +14,7 @@ from pathlib import Path
 import environ 
 import django_on_heroku
 
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -50,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'django-extensions',
+    'django_extensions',
     'questionbox',
     'questionboxcore',
     'api',
