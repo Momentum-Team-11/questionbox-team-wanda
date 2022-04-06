@@ -8,6 +8,10 @@ class QuestionSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "user",
+            "created_at",
+            "pk",
+            "favorited",
+
         )
 
 class QuestionAnswerSerializer(serializers.ModelSerializer):
@@ -18,4 +22,7 @@ class QuestionAnswerSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "answers",
+            "answered",
+            "pk",
+            "favorited"
         )
