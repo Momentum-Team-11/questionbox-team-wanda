@@ -16,3 +16,7 @@ class UserQuestionsListView(ListAPIView):
     queryset = User.questions.all()
     serializer_class = QuestionSerializer
 
+class QuestionDetailsView(ListCreateAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionAnswerSerializer
+
