@@ -8,10 +8,18 @@ class QuestionSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "user",
-            "created_at",
-            "pk",
-            "favorited",
+        )
 
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = (
+            'pk',
+            'user',
+            'question',
+            'response',
+            'answered',
+            'favorited',
         )
 
 class QuestionAnswerSerializer(serializers.ModelSerializer):

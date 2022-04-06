@@ -24,8 +24,9 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls')),
     path('api/auth/', include('djoser.urls')),
     path('api/auth/', include('djoser.urls.authtoken')),
-    path('api/questions/', api_views.QuestionListView.as_view(), name="api-question"),
-    path('api/questions/<int:pk>/', api_views.QuestionDetailsView.as_view(), name="api-questiondetails"),
-    path('api/profile/myquestions', api_views.UserQuestionsListView.as_view(), name="api-userquestions"),
 
+    path('api/questions/', api_views.QuestionListView.as_view(), name="api-question"),  #this is a list of questions, similar to homepage on habittrack
+    path('api/profile/myquestions', api_views.UserQuestionsListView.as_view(), name="api-userquestions"), #this is questions a user has asked
+    path('api/<int:pk>/answers', api_views.AnswerListView.as_view(), name='questions_answer'), #this is all answers for one question
+    
 ]
