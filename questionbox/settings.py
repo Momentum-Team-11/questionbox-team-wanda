@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import environ 
+import django_on_heroku
 
 env = environ.Env(
     # set casting, default value
@@ -141,6 +142,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL='api.User'
+
+# These are settings for heroku
+django_on_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
