@@ -3,7 +3,7 @@ from api.models import Question, Answer, User
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
-from .serializers import AnswerSerializer, QuestionSerializer, QuestionAnswerSerializer
+from .serializers import AnswerSerializer, QuestionSerializer, QuestionAnswerSerializer, UserSerializer
 from api import serializers
 
 
@@ -23,6 +23,11 @@ class UserQuestionsListView(RetrieveUpdateDestroyAPIView):
     serializer_class = QuestionSerializer
 
 class QuestionDetailsView(ListCreateAPIView):
-    queryset = Question.objects.all()
     serializer_class = QuestionAnswerSerializer
 
+    def get_queryset(self):
+        return Answer.objects.filter(question_id=self.kwargs["question_pk"])
+
+class UserList(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
