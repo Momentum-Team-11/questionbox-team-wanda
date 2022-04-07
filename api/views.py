@@ -2,7 +2,7 @@ from django.shortcuts import render
 from api.models import Question, Answer, User
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, RetrieveUpdateDestroyAPIView
 from .serializers import AnswerSerializer, QuestionSerializer, QuestionAnswerSerializer, UserSerializer
 from api import serializers
 
@@ -14,19 +14,20 @@ class QuestionListView(ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class AnswersListView(ListCreateAPIView):
+class UserAnswersListView(ListCreateAPIView):
     queryset= Question.objects.all()
     serializer_class=AnswerSerializer
 
-class UserQuestionsListView(RetrieveUpdateDestroyAPIView):
-    queryset = Question.objects.filter()
+class UserQuestionsListView(ListAPIView):
     serializer_class = QuestionSerializer
 
-class QuestionDetailsView(ListCreateAPIView):
+    def get_queryset(self):
+     return self.request.user.questions.all()
+
+class QuestionDetailsView(RetrieveUpdateDestroyAPIView):
+    queryset = Question.objects.all()
     serializer_class = QuestionAnswerSerializer
 
-    def get_queryset(self):
-        return Answer.objects.filter(question_id=self.kwargs["question_pk"])
 
 class UserList(ListAPIView):
     queryset = User.objects.all()
