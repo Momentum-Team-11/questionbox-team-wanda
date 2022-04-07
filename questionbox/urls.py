@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from api import views as api_views
-from api.serializers import QuestionSerializer, QuestionAnswerSerializer
+from api.serializers import QuestionSerializer, QuestionAnswerSerializer, AnswerSerializer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,7 +26,8 @@ urlpatterns = [
     path('api/auth/', include('djoser.urls.authtoken')),
 
     path('api/questions/', api_views.QuestionListView.as_view(), name="api-question"),  #this is a list of questions, similar to homepage on habittrack
-    path('api/profile/myquestions', api_views.UserQuestionsListView.as_view(), name="api-userquestions"), #this is questions a user has asked
+    path('api/profile/<int:user_pk>/myquestions', api_views.UserQuestionsListView.as_view(), name="api-userquestions"), #this is questions a user has asked
+    path('api/profile/<int:user_pk>/myanswers', api_views.UserAnswersListView.as_view(), name="api-useranswers"), #this is answers a user has given
     path('api/<int:question_pk>/answers', api_views.QuestionDetailsView.as_view(), name='question_answers'), #this is all answers for one question
     path('users/', api_views.UserList.as_view(), name="user")
 ]
