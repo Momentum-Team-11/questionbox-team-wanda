@@ -23,14 +23,13 @@ class AnswerSerializer(serializers.ModelSerializer):
         )
 
 class QuestionAnswerSerializer(serializers.ModelSerializer):
-    answers = AnswerSerializer(many=True, required=False)
+    answers_list = AnswerSerializer(many=True, required=False)
     class Meta:
         model = Question
         fields = (
             "title",
             "description",
-            "answers",
-            "answered",
+            "answers_list",
             "pk",
             "favorited"
         )
