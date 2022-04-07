@@ -145,9 +145,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL='api.User'
 
-# These are settings for heroku
-django_on_heroku.settings(locals())
-del DATABASES['default']['OPTIONS']['sslmode']
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -159,3 +156,8 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORGINS = True
+
+
+# These are settings for heroku
+django_on_heroku.settings(locals())
+del DATABASES['default']['OPTIONS']['sslmode']
