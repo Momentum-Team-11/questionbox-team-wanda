@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from api import views as api_views
-from api.serializers import QuestionSerializer, QuestionAnswerSerializer
+from api.serializers import QuestionSerializer, QuestionAnswerSerializer, AnswerSerializer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
