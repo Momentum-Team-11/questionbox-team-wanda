@@ -10,9 +10,17 @@ from api import serializers
 class QuestionListView(ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+class AnswerListView(ListCreateAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
 
 class UserAnswersListView(ListCreateAPIView):
     queryset= Question.objects.all()
@@ -22,7 +30,7 @@ class UserQuestionsListView(ListAPIView):
     serializer_class = QuestionSerializer
 
     def get_queryset(self):
-     return self.request.user.questions.all()
+        return self.request.user.questions.all()
 
 class QuestionDetailsView(RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
