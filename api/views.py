@@ -14,6 +14,10 @@ class QuestionListView(ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+class AnswersListView(ListCreateAPIView):
+    queryset= Question.objects.all()
+    serializer_class=AnswerSerializer
+
 class UserQuestionsListView(RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.filter()
     serializer_class = QuestionSerializer
