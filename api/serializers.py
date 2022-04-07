@@ -33,3 +33,10 @@ class QuestionAnswerSerializer(serializers.ModelSerializer):
             "pk",
             "favorited"
         )
+
+class UserSerializer(serializers.ModelSerializer):
+    questions = serializers.PrimaryKeyRelatedField(many=True, queryset=Question.objects.all())
+    answer_user = serializers.PrimaryKeyRelatedField(many=True, queryset=Answer.objects.all())
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'questions', 'answer_user')
