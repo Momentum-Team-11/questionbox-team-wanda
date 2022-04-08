@@ -155,7 +155,7 @@ REST_FRAMEWORK = {
         )
 }
 
-CORS_ALLOW_ALL_ORGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 
 # These are settings for heroku

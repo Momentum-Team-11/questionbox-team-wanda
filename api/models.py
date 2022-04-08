@@ -18,7 +18,7 @@ class Question(models.Model):
         return self.title
 
 class Answer(models.Model):
-    question=models.ForeignKey(Question, on_delete=models.CASCADE, related_name="answers_list")
+    question=models.ForeignKey(Question, on_delete=models.CASCADE, null=True, related_name="answers_list")
     response=models.CharField(max_length=10000, null=True, blank=True)
     answered=models.DateField(auto_now_add=True, null=True, blank=True)
     favorited=models.ManyToManyField(User, related_name="favorited_answer", null=True, blank=True)
