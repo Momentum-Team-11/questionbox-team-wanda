@@ -2,6 +2,11 @@ from api.models import Question, Answer, User
 from rest_framework import serializers
 
 class QuestionSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        return obj.user.username
+
     class Meta:
         model = Question
         fields = (
@@ -12,12 +17,18 @@ class QuestionSerializer(serializers.ModelSerializer):
         )
 
 class AnswerSerializer(serializers.ModelSerializer):
+    answers_list = QuestionSerializer(many=True, required=False)
+    user = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        return obj.user.username
+
     class Meta:
         model = Answer
         fields = (
             'pk',
             'user',
-            'question',
+            'answers_list',
             'response',
             'answered',
             'favorited',
@@ -25,6 +36,11 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 class QuestionAnswerSerializer(serializers.ModelSerializer):
     answers_list = AnswerSerializer(many=True, required=False)
+    user = serializers.SerializerMethodField()
+
+    def get_user(self, obj):
+        return obj.user.username
+
     class Meta:
         model = Question
         fields = (
@@ -32,7 +48,8 @@ class QuestionAnswerSerializer(serializers.ModelSerializer):
             "description",
             "answers_list",
             "pk",
-            "favorited"
+            "favorited",
+            "user"
         )
 
 class UserSerializer(serializers.ModelSerializer):
