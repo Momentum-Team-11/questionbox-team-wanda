@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, RetrieveUpdateDestroyAPIView
 from .serializers import AnswerSerializer, QuestionSerializer, QuestionAnswerSerializer, UserSerializer
 from api import serializers
+from django.contrib.postgres.search import SearchVector
+
 
 
 class QuestionListView(ListCreateAPIView):
@@ -42,3 +44,12 @@ class QuestionDetailsView(RetrieveUpdateDestroyAPIView):
 class UserList(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class SearchResultsList(ListAPIView):
+    model = Question
+    context_object_name = "description" #not sure what this is
+    template_name = "search.html"
+
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        return Question.objects.annotate(search=SearchVector("title", "description")).filter(search=query)

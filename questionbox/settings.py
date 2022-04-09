@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'api',
     'djoser',
     "corsheaders",
+    "django.contrib.postgres",
 
 ]
 
