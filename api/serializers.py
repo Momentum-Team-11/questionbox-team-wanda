@@ -14,6 +14,7 @@ class QuestionSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "user",
+            "created_at"
         )
 
 class AnswerSerializer(serializers.ModelSerializer):
@@ -49,7 +50,8 @@ class QuestionAnswerSerializer(serializers.ModelSerializer):
             "answers_list",
             "pk",
             "favorited",
-            "user"
+            "user",
+            "created_at"
         )
 
 class UserSerializer(serializers.ModelSerializer):
