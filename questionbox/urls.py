@@ -29,6 +29,7 @@ urlpatterns = [
     path('api/myquestions/', api_views.UserQuestionsListView.as_view(), name="api-userquestions"), #this is questions a user has asked
     path('api/myanswers/', api_views.UserAnswersListView.as_view(), name="api-useranswers"), #this is questions a user has asked
     path('api/questions/<int:pk>/', api_views.QuestionDetailsView.as_view(), name='question_answers'), #this is all answers for one question
+    path('api/questions/answer/<int:pk>/', api_views.AnswerDetailsView.as_view(), name='question_answers'),
     path('users/', api_views.UserList.as_view(), name="user"),
     path('api/questions/<int:pk>/answer/', api_views.AnswerListView.as_view(), name='add_answer'),
     path("api/search", api_views.QuestionSearchView.as_view(), name='question_search'),
