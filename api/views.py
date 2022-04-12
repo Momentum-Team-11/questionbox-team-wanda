@@ -42,3 +42,14 @@ class QuestionDetailsView(RetrieveUpdateDestroyAPIView):
 class UserList(ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+
+class QuestionSearchView(ListAPIView):
+    serializer_class=QuestionSerializer
+    queryset=Question.objects.all()
+
+    def get_queryset(self):
+        search_term=self.request.query_params.get("description")
+        if search_term is not None:
+            return Question.objects.filter(description__icontains=search_term)
