@@ -19,8 +19,8 @@ class Question(models.Model):
 
 class Answer(models.Model):
     question=models.ForeignKey(Question, on_delete=models.CASCADE, null=True, related_name="answers_list")
-    response=models.CharField(max_length=10000, blank=False, null=True)  #null=True, blank=True
-    answered=models.DateField(auto_now_add=True, null=True, blank=True)
+    response=models.CharField(max_length=10000, blank=False)  #null=True, blank=True
+    answered=models.DateField(auto_now_add=True)
     favorited=models.ManyToManyField(User, related_name="favorited_answer", null=True, blank=True)
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name = "answer_user")
     correct=models.BooleanField(default=False)
