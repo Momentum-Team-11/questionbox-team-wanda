@@ -10,8 +10,8 @@ class User(AbstractUser):
 
 class Question(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE, default=True, related_name="questions")
-    title=models.CharField(max_length=100, default=True, null=True)
-    description=models.CharField(max_length=10000, default=True, null=True)
+    title=models.CharField(max_length=100, default=True, blank=False)
+    description=models.CharField(max_length=10000, default=True, blank=False)
     created_at=models.DateField(auto_now_add=True)
     favorited=models.ManyToManyField(User, related_name="favorited_question", null=True, blank=True)
     def __str__(self):
@@ -19,9 +19,13 @@ class Question(models.Model):
 
 class Answer(models.Model):
     question=models.ForeignKey(Question, on_delete=models.CASCADE, null=True, related_name="answers_list")
-    response=models.CharField(max_length=10000, null=True, blank=True)
+    response=models.CharField(max_length=10000, blank=False, null=True)  #null=True, blank=True
     answered=models.DateField(auto_now_add=True, null=True, blank=True)
     favorited=models.ManyToManyField(User, related_name="favorited_answer", null=True, blank=True)
     user=models.ForeignKey(User, on_delete=models.CASCADE, related_name = "answer_user")
+    correct=models.BooleanField(default=False)
     def __str__(self):
         return str(self.response)
+
+
+
