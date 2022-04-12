@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404, render
 from api.models import Question, Answer, User
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from .serializers import AnswerSerializer, QuestionSerializer, QuestionAnswerSerializer, UserSerializer
@@ -11,6 +13,8 @@ from rest_framework.decorators import action
 class QuestionListView(ListCreateAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -18,6 +22,7 @@ class QuestionListView(ListCreateAPIView):
 class QuestionFavoriteView(RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly] 
     @action(detail=False, methods=['get'])
     def favorited(self, request):
         question = self.get_queryset().filter(favorited=True).filter(user_id=self.request.user)
@@ -28,6 +33,7 @@ class QuestionFavoriteView(RetrieveUpdateDestroyAPIView):
 class AnswerListView(ListCreateAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -56,6 +62,16 @@ class QuestionDetailsView(RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionAnswerSerializer
 
+
+class AnswerDetailsView(RetrieveUpdateDestroyAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+def accepted(self, request):
+    accepted_answers = Question.objects.filter(correct=True)
+    serializer = self.get_serializer(accepted_answers, many=True)
+    return Response(serializer.data)
 
 class UserList(ListAPIView):
     queryset = User.objects.all()
