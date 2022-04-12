@@ -24,6 +24,16 @@ class QuestionFavoriteView(RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(question, many=True)
         return Response(serializer.data)
 
+class AnswerFavoriteView(RetrieveUpdateDestroyAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    @action(detail=False, methods=['get'])
+    def favorited(self, request):
+        answer= self.get_queryset().filter(favorited=True).filter(user_id=self.request.user)
+        serializer = self. get_serializer(answer, many=True)
+        return Response(serializer.data)
+
+
 
 class AnswerListView(ListCreateAPIView):
     queryset = Answer.objects.all()
