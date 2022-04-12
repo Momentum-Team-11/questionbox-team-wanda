@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from api.models import Question, Answer, User
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, UpdateAPIView
 from .serializers import AnswerSerializer, QuestionSerializer, QuestionAnswerSerializer, UserSerializer
 from api import serializers
+from rest_framework.decorators import action
 
 
 class QuestionListView(ListCreateAPIView):
@@ -14,6 +15,24 @@ class QuestionListView(ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
+class QuestionFavoriteView(RetrieveUpdateDestroyAPIView):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
+    bad_request_message = 'An error has occurred'
+    @action(detail=False, methods=['get'])
+    def favorited(self, request):
+        question = self.get_queryset().filter(favorited=True).filter(user_id=self.request.user)
+        serializer = self.get_serializer(question, many=True)
+        return Response(serializer.data)
+
+    def delete(self, request):
+        question = self.get_queryset().filter(favorited=True).filter(user_id=self.request.user)
+        if request.user in question.favorited.all():
+            question.favorited.remove(request.user)
+            return Response ({'detail':'user removed from post'})
+        return Response ({'detail':self.bad_request_message})
+
+
 class AnswerListView(ListCreateAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
@@ -21,12 +40,19 @@ class AnswerListView(ListCreateAPIView):
         serializer.save(user=self.request.user)
 
 
+    @action(detail=False, methods= ["get"])
+    def correct(self, request):
+        accepted_answers = self.get_queryset().filter(accepted=True)
+        serializer = self.get_serializer(accepted_answers, many=True)
+        return Response(serializer.data)
+
+
 
 class UserAnswersListView(ListCreateAPIView):
     serializer_class=AnswerSerializer
 
     def get_queryset(self):
-     return self.request.user.answer_user.all()
+        return self.request.user.answer_user.all()
 
 class UserQuestionsListView(ListAPIView):
     serializer_class = QuestionSerializer
@@ -53,3 +79,5 @@ class QuestionSearchView(ListAPIView):
         search_term=self.request.query_params.get("description")
         if search_term is not None:
             return Question.objects.filter(description__icontains=search_term)
+
+

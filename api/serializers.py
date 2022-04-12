@@ -3,7 +3,6 @@ from rest_framework import serializers
 
 class QuestionSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
-
     def get_user(self, obj):
         return obj.user.username
 
@@ -14,6 +13,9 @@ class QuestionSerializer(serializers.ModelSerializer):
             "title",
             "description",
             "user",
+            'favorited',
+            
+
         )
 
 class AnswerSerializer(serializers.ModelSerializer):
@@ -32,6 +34,7 @@ class AnswerSerializer(serializers.ModelSerializer):
             'response',
             'answered',
             'favorited',
+            'correct',
         )
 
 class QuestionAnswerSerializer(serializers.ModelSerializer):
