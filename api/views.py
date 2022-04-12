@@ -18,19 +18,11 @@ class QuestionListView(ListCreateAPIView):
 class QuestionFavoriteView(RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
-    bad_request_message = 'An error has occurred'
     @action(detail=False, methods=['get'])
     def favorited(self, request):
         question = self.get_queryset().filter(favorited=True).filter(user_id=self.request.user)
         serializer = self.get_serializer(question, many=True)
         return Response(serializer.data)
-
-    def delete(self, request):
-        question = self.get_queryset().filter(favorited=True).filter(user_id=self.request.user)
-        if request.user in question.favorited.all():
-            question.favorited.remove(request.user)
-            return Response ({'detail':'user removed from post'})
-        return Response ({'detail':self.bad_request_message})
 
 
 class AnswerListView(ListCreateAPIView):
