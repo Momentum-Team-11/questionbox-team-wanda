@@ -45,7 +45,11 @@ class AnswerListView(ListCreateAPIView):
     serializer_class = AnswerSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+
+        question = get_object_or_404(Question, pk=self.kwargs["pk"])
+         #grab question pk from URL, and save question pk as the answers' question pk and save drf preform crate functions. 
+
+        serializer.save(user=self.request.user, question=question)
         
 
 
