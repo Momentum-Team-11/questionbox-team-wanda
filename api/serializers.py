@@ -19,6 +19,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         )
 
 class AnswerSerializer(serializers.ModelSerializer):
+    title = serializers.SlugRelatedField(slug_field='title', read_only='True', source='question')
     answers_list = QuestionSerializer(many=True, required=False)
     user = serializers.SerializerMethodField()
 
@@ -30,6 +31,7 @@ class AnswerSerializer(serializers.ModelSerializer):
         fields = (
             'pk',
             'user',
+            'title',
             'answers_list',
             'response',
             'answered',

@@ -46,6 +46,8 @@ class AnswerListView(ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+        
+
 
 
     @action(detail=False, methods= ["get"])
@@ -71,7 +73,7 @@ class UserQuestionsListView(ListAPIView):
 class QuestionDetailsView(RetrieveUpdateDestroyAPIView):
     queryset = Question.objects.all()
     serializer_class = QuestionAnswerSerializer
-
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 class AnswerDetailsView(RetrieveUpdateDestroyAPIView):
     queryset = Answer.objects.all()
